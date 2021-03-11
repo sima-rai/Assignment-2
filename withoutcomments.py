@@ -378,34 +378,290 @@ is_palindrome('madam')
 
 #Ans:
 
-filename = 'myfile'
-list_of_tuples = [('George', '4312 Abbey Road', 22), ('John', '54 Love Ave',
-21)]
-def csv_func(s, l):
+import csv
 
-    empty=[]
-    for i in list_of_tuples:
+list_of_tuples = [('George', '4312 Abbey Road', 22), ('John', '54 Love Ave',21)]
+filename='testfile.csv'
 
-        li=list(i)
-        empty.append(li)
+def csv_file(fn, lt):
 
-        # for j in li:
-        #     print(j, end=',')
-    #     empty.append(li)
-    #
-    # print(empty)
-    # for i in empty:
-    #     print(i)
+     l=[['name','address','age']]
 
-    for i in empty:
-        for j in i:
-            x=print(j, end=',')
+     for i in lt:
+          a=list(i)
+          l.append(a)
+
+     with open(fn, 'w', newline='') as file:
+          writer=csv.writer(file)
+          writer.writerows(l)
+
+csv_file(filename, list_of_tuples)
 
 
 
+#------------------------------------------------------------------------------------------------------------------
 
 
-csv_func(filename,list_of_tuples)
+# 14. Write a function that reads a CSV file. It should return a list of
+# dictionaries, using the first row as key names, and each subsequent
+# row as values for those keys.
+# For the data in the previous example it would return:
+# [{'name': 'George', 'address': '4312 Abbey Road', 'age': 22}, {'name':
+# 'John', 'address': '54 Love Ave', 'age': 21}]
+
+
+#Ans:
+
+import csv
+filename='testfile.csv' #Its a file from previous example that is already created. So i am using this file to read
+def reads_csv_file(fn):
+     with open(fn, 'r') as file:
+          csv_file = csv.DictReader(file)
+          l=[]
+          for row in csv_file:
+               x=dict(row)
+               l.append(x)
+          return l
+
+
+print(reads_csv_file(filename))
+
+
+
+#------------------------------------------------------------------------------------------------------------------
+
+
+# 15. Imagine you are designing a banking application. What would a
+# customer look like? What attributes would she have? What methods
+# would she have?
+
+
+#Ans:
+
+class Customer:
+     category = 'Nepali'
+     def __init__(self,fullname,DOB,gender,permanent_address,temporary_address,citizenshipno,ppsize_photo,phone_number,
+                  signature,email,account_number,account_type, *args):
+
+          #attributes
+          self.fullname =fullname
+          self.DOB = DOB
+          self.gender = gender
+          self.permanent_address = permanent_address
+          self.temporary_address = temporary_address
+          self.citizenshipno = citizenshipno
+          self.ppsize_photo = ppsize_photo
+          self.phone_number = phone_number
+          self.signature = signature
+          self.email = email
+          self.account_number = account_number
+          self.account_type = account_type
+
+     #methods
+
+     def can_deposit_money(self):
+          money=1000
+          return money
+
+     def can_withdraw_money(self):
+          pass
+
+     def can_open_account(self):
+          pass
+
+     def cam_issue_check(self):
+          pass
+
+     def can_do_transactions(self):
+          pass
+
+
+a=Customer('Ram','','','','','','','','','','','')
+print(a.fullname)
+print(a.can_deposit_money())
+
+
+# ------------------------------------------------------------------------------------------------------------------
+
+
+# 16. Imagine you are creating a Super Mario game. You need to define a
+# class to represent Mario. What would it look like? If you aren't familiar
+# with SuperMario, use your own favorite video or board game to model
+# a player
+
+
+#Ans:
+
+class Mario:
+     def __init__(self):
+          self.name = "Mario"
+          self.costume="type1"
+
+
+     def can_jump(self):
+          pass
+
+     def can_walk(self):
+          pass
+
+     def can_run(self):
+          pass
+
+     def can_use_items(self):
+          pass
+
+     def can_throw_items(self):
+          pass
+
+     def can_earn_coins(self):
+          pass
+
+
+
+
+# ------------------------------------------------------------------------------------------------------------------
+
+
+# 17. Write a program that serves as a basic calculator. It asks for two
+# numbers, then it asks for an operator. Gracefully deal with input that
+# doesn't cleanly convert to numbers. Deal with division by zero errors.
+
+
+#Ans:
+
+import sys
+
+# error handling for input that doesn't cleanly convert to numbers
+try:
+     x = float(input("Enter first number:"))
+     y = float(input("Enter second number:"))
+     o = input("Enter operator:")
+except Exception :
+     print("Enter valid number")
+     sys.exit(1)
+
+
+#Basic Calculator
+def calculator(n1,n2,op):
+     if n2==0 and op == '/':
+          return "Math error: Number can't be divided by 0"
+     else:
+          if op == "+":
+               return n1 + n2
+          elif op == "-":
+               return n1 - n2
+          elif op == "*":
+               return n1 * n2
+          elif op == "/":
+               return n1 / n2
+          else:
+               return "Invalid operator. Please select '+,-,* or /'"
+
+
+print(calculator(x,y,o))
+
+
+
+# ------------------------------------------------------------------------------------------------------------------
+
+
+# 18. Find a package in the Python standard library for dealing with JSON.
+# Import the library module and inspect the attributes of the module.
+# Use the help function to learn more about how to use the module.
+# Serialize a dictionary mapping 'name' to your name and 'age' to your
+# age, to a JSON string. Deserialize the JSON back into Python.
+
+
+#Ans:
+
+import json
+
+data={ 'name':'ram', 'age': 40}
+
+#Serializing
+json_string = json.dumps(data, indent=2)
+print(json_string)
+
+
+#Deserializing
+python_string = json.loads(json_string)
+print(python_string)
+
+
+# ------------------------------------------------------------------------------------------------------------------
+
+
+# 19. Write a Python class to find validity of a string of parentheses, '(', ')',
+# '{', '}', '[' and ']. These brackets must be close in the correct order, for
+# example "()" and "()[]{}" are valid but "[)", "({[)]" and "{{{" are invalid
+
+
+#Ans:
+
+class Brackets:
+
+    def is_valid(self, s):
+        d = {'(': ')', '{': '}', '[': ']'}
+        l = []
+        for i in s:
+            if i in d:
+                l.append(d[i])
+            elif not l or i != l.pop():
+                return False
+        return not l
+
+    # print(is_valid('{{{'))
+a=Brackets()
+print(a.is_valid('()[]'))
+print(a.is_valid('({[)]'))
+
+
+
+
+# ------------------------------------------------------------------------------------------------------------------
+
+# 20. Write a Python class to find the three elements that sum to zero from
+# a list of n real numbers.
+# Input array : [-25, -10, -7, -3, 2, 4, 8, 10]
+# Output : [[-10, 2, 8], [-7, -3, 10]]
+
+
+#Ans:
+
+class Zero:
+    def sum_zero(self, l):
+        l=sorted(l)
+        result = []
+        i = 0
+
+
+        while i < len(l)-2:
+            j=i+1
+            k= len(l) -1
+            while j < k:
+                if l[i] + l[j] + l[k] < 0:
+                    j= j+1
+                elif l[i] + l[j] + l[k] >0:
+                    k=k-1
+                else:
+                    result.append([l[i], l[j], l[k]])
+                    j = j+1
+                    k =k-1
+                    while j<k and l[j] == l[j-1]:
+                        j=j+1
+                    while j<k and l[k] == l[k+1]:
+                        k=k-1
+            i=i+1
+            while i<len(l)-2 and l[i]==l[i-1]:
+                i=i+1
+        return result
+
+a=Zero()
+print(a.sum_zero([-25, -10, -7, -3, 2, 4, 8, 10]))
+
+
+
+
 
 
 
